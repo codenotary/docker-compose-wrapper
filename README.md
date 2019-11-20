@@ -16,12 +16,15 @@ Wrapper for script for docker-compose adding some very useful convenience comman
    status [<name>]    See 'ps' command
    renew  [<name>]    Renews containers by stopping, removing and creating them
    update [<name>]    Updates containers by pulling, stopping, removing and creating them
+   auth   [<name>]    Authenticate container images by pulling, authenticate using CodeNotary
    ```
 
 Prerequisites
 -------------
 * [Docker](https://docs.docker.com/engine/installation/) must be installed
 * [Docker-Compose](https://docs.docker.com/compose/install/) must be installed
+* [CodeNotary vcn](https://github.com/vchain-us/vcn) must be installed under /usr/local/bin/vcn
+* jq should be installed / apt install jq
 
 Installation
 ------------
