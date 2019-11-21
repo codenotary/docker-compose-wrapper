@@ -17,6 +17,7 @@ Wrapper for script for docker-compose adding some very useful convenience comman
    renew  [<name>]    Renews containers by stopping, removing and creating them
    update [<name>]    Updates containers by pulling, stopping, removing and creating them
    auth   [<name>]    Authenticate container images by pulling, authenticate using CodeNotary
+   notarize [<name>]  Notarize container images by pulling, notarize using CodeNotary
    ```
 
 Prerequisites
@@ -35,6 +36,14 @@ Code | Status | Color | Description | Error message | Explanation
 2 | **UNKNOWN** | *yellow* | The asset is not notarized. | *hash* is not notarized *[by <key/list of keys/org>]* | No notarization is found on the blockchain for the asset.
 1 | **UNTRUSTED** | *red* | The asset is untrusted. | *hash* is untrusted *[by <key/list of keys/org>]* | The  blockchain indicates that the signer DOES NOT trust the asset.
 3 | **UNSUPPORTED** | *red* | The asset is unsupported. | *hash* is unsupported *[by <key/list of keys/org>]* | The blockchain indicates that the signer DOES NOT trust the asset because it is not supported anymore (e.g. deprecated).
+
+## Notarize environment variables 
+-------------
+
+Name | Description | Example 
+------------ | ------------- | -------------
+`VCN_USER`, `VCN_PASSWORD` | Credentials for non-interactive user login | `VCN_USER=example@example.net VCN_PASSWORD=<your_password> vcn login`
+`VCN_NOTARIZATION_PASSWORD` | Notarization password for non-interactive notarization | `VCN_NOTARIZATION_PASSWORD=<your_notarization_passphrase> vcn notarize <asset>`
 
 Installation
 ------------
