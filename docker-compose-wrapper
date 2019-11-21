@@ -204,6 +204,19 @@ function auth() {
 }
 
 # ---------------------------------------------------------------
+# Function to notarize container
+# ---------------------------------------------------------------
+# $1 - Container name in compose file (empty: all)
+# Environment variables for automation (`VCN_USER``VCN_PASSWORD``VCN_NOTARIZATION_PASSWORD`)
+# ---------------------------------------------------------------
+function notarize() {
+    compose "pull" $1
+    vcn login
+    compose "images" $1 -q | xargs -I{} vcn n docker://{} -o json | jq .verification.status
+}
+
+
+# ---------------------------------------------------------------
 # Function for printing the usage of this script
 # ---------------------------------------------------------------
 function composeUsage() {
@@ -222,6 +235,7 @@ Convenience commands (parameters in brackets are optional):
   renew  [<name>]    Renews containers by stopping, removing and creating them
   update [<name>]    Updates containers by pulling, stopping, removing and creating them
   auth   [<name>]    Authenticate container images by pulling, authenticate using CodeNotary
+  notarize [<name>]  Notarize container images by pulling, notarize using CodeNotary
 
 USAGE
 }
@@ -263,7 +277,10 @@ case "$1" in
     auth)
         auth "$2"
     ;;
-
+    notarize)
+        notarize "$2"
+    ;;
+    
     *)
         # passthrough parameters to compose script
         compose "$@"
