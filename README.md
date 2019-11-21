@@ -26,6 +26,16 @@ Prerequisites
 * [CodeNotary vcn](https://github.com/vchain-us/vcn) must be installed under /usr/local/bin/vcn
 * jq should be installed / apt install jq
 
+Auth Status level
+-------------
+
+Code | Status | Color | Description | Error message | Explanation
+------------ | ------------- | ------------- | ------------ | ------------- | -------------
+0 | **TRUSTED** | *green* | The asset was notarized. | *none* | The blockchain indicates that the asset is authentic and the signer trusts it.
+2 | **UNKNOWN** | *yellow* | The asset is not notarized. | *hash* is not notarized *[by <key/list of keys/org>]* | No notarization is found on the blockchain for the asset.
+1 | **UNTRUSTED** | *red* | The asset is untrusted. | *hash* is untrusted *[by <key/list of keys/org>]* | The  blockchain indicates that the signer DOES NOT trust the asset.
+3 | **UNSUPPORTED** | *red* | The asset is unsupported. | *hash* is unsupported *[by <key/list of keys/org>]* | The blockchain indicates that the signer DOES NOT trust the asset because it is not supported anymore (e.g. deprecated).
+
 Installation
 ------------
 * Download docker-compose-wrapper script to `/usr/local/bin` folder:
