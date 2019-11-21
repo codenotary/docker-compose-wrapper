@@ -2,6 +2,7 @@
 
 # configuration
 compose="/usr/local/bin/docker-compose"
+vcn="/usr/local/bin/vcn"
 
 # ---------------------------------------------------------------
 # Function for calling the docker-compose binary
@@ -192,6 +193,17 @@ function update() {
 }
 
 # ---------------------------------------------------------------
+# Function to authenticate container
+# ---------------------------------------------------------------
+# $1 - Container name in compose file (empty: all)
+# Level Output (0=Trusted, 1=Untrusted, 2=Unknown, 3=Unsupported)
+# ---------------------------------------------------------------
+function auth() {
+    compose "pull" $1
+    compose "images" $1 -q | xargs -I{} vcn a docker://{} -o json | jq .verification.status
+}
+
+# ---------------------------------------------------------------
 # Function for printing the usage of this script
 # ---------------------------------------------------------------
 function composeUsage() {
@@ -209,6 +221,8 @@ Convenience commands (parameters in brackets are optional):
   status [<name>]    See 'ps' command
   renew  [<name>]    Renews containers by stopping, removing and creating them
   update [<name>]    Updates containers by pulling, stopping, removing and creating them
+  auth   [<name>]    Authenticate container images by pulling, authenticate using CodeNotary
+
 USAGE
 }
 
@@ -246,6 +260,10 @@ case "$1" in
     update)
         update "$2"
     ;;
+    auth)
+        auth "$2"
+    ;;
+
     *)
         # passthrough parameters to compose script
         compose "$@"
